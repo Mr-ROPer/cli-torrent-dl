@@ -10,30 +10,36 @@ from tordl.core import BaseDl, SearchResult
 class SolidTorrents(BaseDl):
     NAME = 'Solid'
     BASE_URL = 'https://solidtorrents.net'
-    SEARCH_URL = \
-        '%s/api/v1/search?sort=seeders&q=%s&category=all&skip=%s&fuv=yes' % \
+    SEARCH_URL = '%s/search?q=%s&sort=seeders&page=%s' % \
         (BASE_URL, '%s', '%s')
 
     def _mk_search_url(self, expression):
-        return self.SEARCH_URL % (
-            expression, str((self._current_index - 1) * 20)
-        )
+        return self.SEARCH_URL % (expression, str(self._current_index))
 
     def _process_search(self, response):
+        bs = BeautifulSoup(response, features='html.parser')
         result = []
         try:
-            results = json.loads(response)['results']
-            for o in results:
-                swarm = o['swarm']
+            divs = bs.findAll('div', class_='search-result')
+            for div in divs:
+                a = div.find('h5', class_='title').find('a')
+                name = a.text
+                link = a.attrs['href']
+                magnet_url = div.find('a', class_='dl-magnet').attrs['href']
+
+                stats = div.find('div', class_='stats').findAll('div')
+                size = stats[1].text
+                seeders = stats[2].find('font').text
+                leechers = stats[3].find('font').text
                 result.append(
                     SearchResult(
                         self,
-                        o['title'],
-                        '/search?q=%s' % self._current_search,
-                        swarm['seeders'],
-                        swarm['leechers'],
-                        self._hr_size(o['size']),
-                        o['magnet']
+                        name,
+                        link,
+                        seeders,
+                        leechers,
+                        size,
+                        magnet_url
                     )
                 )
         except Exception:
@@ -41,21 +47,10 @@ class SolidTorrents(BaseDl):
         return result
 
     def _mk_magnet_url(self, link):
-        pass
+        return '%s%s' & (self.BASE_URL, link)
 
     def _process_magnet_link(self, response):
         pass
-
-    def _hr_size(self, size):
-        prefixes = ['', 'K', 'M', 'G', 'T', 'P']
-        p_index = 0
-
-        while size >= 1024:
-            size /= 1024
-            p_index += 1
-
-        fmt = '%s%sB' % ('%.2f' if p_index else '%d', prefixes[p_index])
-        return fmt % size
 
 
 class KickAssTorrents(BaseDl):

@@ -31,9 +31,11 @@ elif [[ -e $VENV_DIR ]]; then
 	printf '%s %s\n\n' 'Created backup of virtualenv at' "$VENV_DIR.bak"
 fi
 
-PYTHON_VERSION="$(python3 -V | tr -d '[A-Za-z .]')"
-if [[ $PYTHON_VERSION =~ ^3[89] ]]; then
+PYTHON_VERSION="$(python3 -V | tr -d '[A-Za-z ]')"
+if [[ $PYTHON_VERSION =~ ^3\.(8|9|10) ]]; then
 	PYTHON_BIN="python3"
+elif [[ -n $(which python3.10) ]]; then
+	PYTHON_BIN="python3.10"
 elif [[ -n $(which python3.9) ]]; then
 	PYTHON_BIN="python3.9"
 elif [[ -n $(which python3.8) ]]; then
