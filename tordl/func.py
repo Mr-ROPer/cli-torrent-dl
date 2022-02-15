@@ -4,6 +4,7 @@ import json
 import os
 import subprocess
 from functools import partial
+import pyperclip
 
 import tordl.config as cfg
 from tordl import core
@@ -18,6 +19,12 @@ def _mk_loop(loop):
         loop = asyncio.get_event_loop()
 
     return loop
+
+def export_magnet(magnet_url):
+    if cfg.TORRENT_CLIPBOARD_MODE:
+        pyperclip.copy(magnet_url)
+    else:
+        run_torrent_client(magnet_url)
 
 
 def run_torrent_client(magnet_url):
@@ -60,8 +67,8 @@ def direct_download(st, loop=None):
             print('Fetching magnet link...')
             magnet_url = loop.run_until_complete(dl.get_magnet_url(result))
 
-        print('Running torrent client...')
-        run_torrent_client(magnet_url)
+        print('Exporting magnet link...')
+        export_magnet(magnet_url)
     else:
         print('No results found.')
 
