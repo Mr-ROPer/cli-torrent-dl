@@ -1,10 +1,10 @@
-# CLI Torrent Downloader
+# tordl
 
 <img src="./img/tordl.gif" width="732">
 
 ## About
-CLI Torrent Downloader provides convenient and quick way to search torrent  
-magnet links (and to run associated torrent client) via major torrent sites 
+tordl provides convenient and quick way to search torrent magnet links
+(and to run associated torrent client) via major torrent sites 
 (ThePirateBay, LimeTorrents, Zooqle, 1337x, GloTorrents, KickAssTorrents, 
 SolidTorrents, BTDB, TGx, Nyaa by default) through command line.
 
@@ -91,7 +91,7 @@ one RPC method `search` which expects array of one argument - the search term.
 ### RPC Client
 Run with `-q` or `--rpc-client`, see `-h` for setting connection details.
 
-### Iam feeling lucky mode
+### I'm feeling lucky mode
 Directly downloads and opens torrent client with magnet link from first search
 result. Run with `-d` or `--download`.
 

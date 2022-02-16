@@ -3,6 +3,7 @@ import importlib
 import inspect
 import json
 import time
+from aiohttp import client_exceptions
 from asyncio import Task, Event, FIRST_COMPLETED, Lock
 from importlib import machinery, util
 
@@ -125,7 +126,8 @@ class BaseDl:
                         url, timeout=cfg.REQUEST_TIMEOUT
                 ) as response:
                     return await response.read()
-        except asyncio.exceptions.TimeoutError:
+        except (asyncio.exceptions.TimeoutError,
+                client_exceptions.ClientConnectorError):
             return None
 
     def _mk_search_url(self, expression):
