@@ -273,10 +273,12 @@ class DlFacade:
                     if nsr.magnet_url and sr.magnet_url == nsr.magnet_url:
                         sr.origins.append(nsr.origins[0])
                         sr.links.append(nsr.links[0])
+
                         if nsr.seeders > sr.seeders:
                             sr.seeders = nsr.seeders
                         if nsr.leechers > sr.leechers:
                             sr.leechers = nsr.leechers
+
                         new_search_results.remove(nsr)
 
         return new_search_results

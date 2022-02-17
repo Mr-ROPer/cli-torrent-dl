@@ -3,7 +3,7 @@
 <img src="./img/tordl.gif" width="732">
 
 ## About
-tordl provides convenient and quick way to search torrent magnet links
+tordl provides a convenient and quick way to search torrent magnet links
 (and to run associated torrent client) via major torrent sites 
 (ThePirateBay, LimeTorrents, Zooqle, 1337x, GloTorrents, KickAssTorrents, 
 SolidTorrents, BTDB, TGx, Nyaa by default) through command line.
@@ -48,6 +48,7 @@ Show help:
 
 ### Browse Mode Usage
 * KEY_DOWN, KEY_UP, PAGE_UP, PAGE_DOWN - Navigate
+* j, k, h, l - Navigate
 * ENTER - Run torrent client
 * SPACE - Open torrent info URL in browser
 * ESC - exit

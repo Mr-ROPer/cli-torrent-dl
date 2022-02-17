@@ -28,16 +28,16 @@ class BaseScrollableWindow:
 
     def process_key(self, key):
         h, _ = self._screen.getmaxyx()
-        if key == curses.KEY_UP:
+        if key in [curses.KEY_UP, ord('k')]:
             if self._items:
                 self._navigate(-1)
-        elif key == curses.KEY_DOWN:
+        elif key in [curses.KEY_DOWN, ord('j')]:
             if self._items:
                 self._navigate(1)
-        elif key == curses.KEY_PPAGE:
+        elif key in [curses.KEY_PPAGE, ord('h')]:
             if self._items:
                 self._navigate(-(h - 2) // 2)
-        elif key == curses.KEY_NPAGE:
+        elif key in [curses.KEY_NPAGE, ord('l')]:
             if self._items:
                 self._navigate((h - 2) // 2)
 
@@ -552,17 +552,18 @@ class ItemWindow(BaseScrollableWindow):
             if self._items:
                 self._items.append(self.LoadMoreItem())
 
-    def draw(self,
-             h,
-             w,
-             no_len,
-             title_length,
-             source_max,
-             seeders_max,
-             leechers_max,
-             size_max,
-             start_search
-             ):
+    def draw(
+            self,
+            h,
+            w,
+            no_len,
+            title_length,
+            source_max,
+            seeders_max,
+            leechers_max,
+            size_max,
+            start_search
+    ):
         max_items = super()._get_max_items(h)
 
         if self._items is None:
