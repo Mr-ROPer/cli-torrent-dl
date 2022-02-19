@@ -3,7 +3,6 @@ import importlib
 import inspect
 import json
 import time
-from aiohttp import client_exceptions
 from asyncio import Task, Event, FIRST_COMPLETED, Lock
 from importlib import machinery, util
 
@@ -12,7 +11,7 @@ try:
 except Exception:
     uvloop = None
 
-from aiohttp import ClientSession, ClientTimeout
+from aiohttp import ClientSession, ClientTimeout, client_exceptions
 
 import tordl.config as cfg
 
