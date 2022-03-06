@@ -40,13 +40,13 @@ class SearchResult:
 
         sb = self.size.lower()
         if 'kb' in sb:
-            self.size_b = float(sb.replace('kb', '')) * 1024
+            self.size_b = float(sb.replace('kb', '')) * 1000
         elif 'mb' in sb:
-            self.size_b = float(sb.replace('mb', '')) * (1024 ** 2)
+            self.size_b = float(sb.replace('mb', '')) * (1000 ** 2)
         elif 'gb' in sb:
-            self.size_b = float(sb.replace('gb', '')) * (1024 ** 3)
+            self.size_b = float(sb.replace('gb', '')) * (1000 ** 3)
         elif 'tb' in sb:
-            self.size_b = float(sb.replace('tb', '')) * (1024 ** 4)
+            self.size_b = float(sb.replace('tb', '')) * (1000 ** 4)
         elif 'b' in sb:
             self.size_b = float(sb.replace('b', ''))
         else:
