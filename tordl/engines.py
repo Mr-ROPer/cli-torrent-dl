@@ -267,7 +267,7 @@ class TpbParty(BaseDl):
 
 class LimeTorrents(BaseDl):
     NAME = 'Lime'
-    BASE_URL = 'https://www.limetorrents.pro'
+    BASE_URL = 'https://www.limetorrents.lol'
     SEARCH_URL = '%s/search/all/%s/seeds/%s/' % (BASE_URL, '%s', '%s')
 
     def _mk_search_url(self, expression):
