@@ -32,10 +32,13 @@ elif [[ -e $VENV_DIR ]]; then
 fi
 
 PYTHON_BIN=''
-PYTHON_MINOR_VERSION="$(python3 -V | tr -d '[A-Za-z ]' | awk -F . '{print $2}')"
-PYTHON_LAST_MINOR=10
+PYTHON_VERSION=[]
+# Split python version into array.
+IFS='.' read -r -a PYTHON_VERSION <<< "$(python3 -V | tr -d '[A-Za-z ]')"
+# Latest minor version of python.
+PYTHON_LAST_MINOR=11
 
-if (( PYTHON_MINOR_VERSION >= 8 )); then
+if (( PYTHON_VERSION[1] >= 8 )); then
 	PYTHON_BIN='python3'
 else
 	for (( i = PYTHON_LAST_MINOR; i >= 8; i-- )); do
@@ -68,7 +71,7 @@ virtualenv -p $PYTHON_BIN "$VENV_DIR"
 PS1=$PS1B
 
 . "$VENV_DIR/bin/activate"
-pip3 install -r "$SCRIPT_DIR/requirements.txt"
+"$PYTHON_BIN" -m pip install -r "$SCRIPT_DIR/requirements.txt"
 
 LN_CMD=('ln' '-sf' "$SCRIPT_DIR/tordl.sh")
 if [[ $PATH =~ "$HOME/.local/bin" ]]; then
@@ -79,14 +82,13 @@ fi
 
 while true; do
 	# This ugly expansion is to get the last elem of $LN_CMD in a more compatible way.
-	read -p "Do you want to link tordl.sh to ${LN_CMD[${#LN_CMD[@]}-1]}? [y/N]: " choice
-	# Convert $choice to lowercase to keep things clean.
+	read -p "Do you want to link tordl.sh to ${LN_CMD[${#LN_CMD[@]}-1]}? [Y/n]: " choice
 	case "${choice,,}" in
-		'y')
+		''|'y')
 			"${LN_CMD[@]}"
 			break
 		;;
-		''|'n')
+		'n')
 			break
 		;;
 	esac
